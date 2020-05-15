@@ -1,0 +1,49 @@
+<h1>講座一覧</h1>
+
+<div class='table-responsive'>
+  <%= link_to "講座を追加", new_admin_category_path, class: "btn btn-primary" %><span style="margin-left: 20px">業者メンテナンス用です</span>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr>
+          <td><%= category.title %></td>
+          <td><%= link_to '編集', edit_admin_category_path(category) %></td>
+          <td><%= link_to 'チャプター編集画面へ', admin_category_videos_url(category) %></td>
+          <td><%= link_to 'アンケート設定画面へ', admin_category_questionnaires_url(category) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h1>講座カテゴリ一覧</h1>
+
+<div class='table-responsive'>
+  <%= link_to "カテゴリを追加", new_admin_category_type_path, class: "btn btn-primary" %><span style="margin-left: 20px">業者メンテナンス用です</span>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @category_types.each do |category_type| %>
+        <tr>
+          <td><%= category_type.title %></td>
+          <td><%= link_to '編集', edit_admin_category_type_path(category_type) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

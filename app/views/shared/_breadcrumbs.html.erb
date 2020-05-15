@@ -1,0 +1,12 @@
+<div class="area-breadcrumb">
+  <ul class="breadcrumb">
+    <% breadcrumbs.each do |b| %>
+      <% current = (b == breadcrumbs.last) ? 'current' : '' %>
+      <li class="<%= current %>" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a class="<%= current %>" href="<%= b[1] unless b[1].nil? %>" itemprop="url">
+          <span itemprop="title"><%= b[0] %></span>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

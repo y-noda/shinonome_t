@@ -1,0 +1,82 @@
+<div class="area-breadcrumb">
+  <ul class="breadcrumb">
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/top" itemprop="url"><span itemprop="title">TOP</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories" itemprop="url"><span itemprop="title">講座一覧</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories/1/videos" itemprop="url"><span itemprop="title">初任者研修講座「情報教育と情報モラル」</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title"><%= @chapter_title %></span></a></li>
+    <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title">チェックシート</span></a></li>
+  </ul>
+</div>
+<h1 class="headChecksheet"><span>チェックシート</span></h1>
+<main class="wrap-checksheet">
+  <section>
+    <div class="heading-border">
+      <p class="bold">「健康教育」</p>
+      <p>－学校保健・学校安全・食育－</p>
+    </div>
+    <h2><span>確認項目<%= @chapter_number %></span><p><%= @chapter_title %></p></h2>
+
+    <ol class="area-question">
+      <%= form_tag checksheets_path(anchor: 'post-anchor'), method: :post do %>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q1</p>
+            <p class="first-half"><%= @checksheet_1.question %></p>
+          </dt>
+          <dd class="answer">
+            <textarea class="textbox" name="choice_1"></textarea>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q2</p>
+            <p class="first-half"><%= @checksheet_2.question %><br></p>
+          </dt>
+          <dd class="answer">
+            <textarea class="textbox" name="choice_2"></textarea>
+          </dd>
+        </dl>
+      </li>
+      <% if @chapter_number === 3 %>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q3</p>
+            <p class="first-half"><%= @checksheet_3.question %><br></p>
+          </dt>
+          <dd class="answer">
+            <textarea class="textbox" name="choice_3"></textarea>
+          </dd>
+        </dl>
+      </li>
+      <% end %>
+    <div class="end">
+      <div class="box">
+        <div class="actions">
+          <%= submit_tag '送信', class: "submit" %>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <%= hidden_field_tag :checksheet_1, @checksheet_1.id %>
+      <%= hidden_field_tag :checksheet_2, @checksheet_2.id %>
+      <% if @chapter_number === 3 %>
+      <%= hidden_field_tag :checksheet_3, @checksheet_3.id %>
+      <% end %>
+      <%= hidden_field_tag :chapter_number, @chapter_number %>
+      <%= hidden_field_tag :category_id, @category_id %>
+    </div>
+  <% end %>
+    </ol>
+  </section>
+</main>
+<% if @result_text_1 %>
+<div class="area-result">
+  <a style="pointer-events: none;" name="post-anchor"><h3><%= @result_text_1 %></h3></a>
+  <%= simple_format(@result_text_2,  class: @is_correct ? "tx-correct" : "") %>
+  <div class="btn<%= ' btn-disable' if !@is_correct %>"><%= link_to @result_link_text, @result_link %></div>
+</div>
+<% end %>

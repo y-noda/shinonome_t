@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Category Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @category_types.each do |category_type| %>
+      <tr>
+        <td><%= category_type.title %></td>
+        <td><%= link_to 'Show', category_type %></td>
+        <td><%= link_to 'Edit', edit_category_type_path(category_type) %></td>
+        <td><%= link_to 'Destroy', category_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Category type', new_category_type_path %>

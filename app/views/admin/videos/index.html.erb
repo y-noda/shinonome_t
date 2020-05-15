@@ -1,0 +1,24 @@
+<h1>チャプターの編集</h1>
+
+<div class='table-responsive'>
+  <%= link_to "チャプターの追加", new_admin_category_video_path(@category), class: "btn btn-primary" %>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @videos.each do |video| %>
+        <tr>
+          <td><%= video.title %></td>
+          <td><%= link_to '編集', edit_admin_video_path(video) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br>

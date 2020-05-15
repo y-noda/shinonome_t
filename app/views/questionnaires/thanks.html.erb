@@ -1,0 +1,30 @@
+<% if @category %>
+  <% @page_title = "初任者研修講座に関するアンケートページ" %>
+<% else %>
+  <% @page_title = "ｅラーニングを活用した研修についてのアンケートページ" %>
+<% end %>
+
+<main class="wrap-checksheet">
+  <div class="area-breadcrumb">
+    <ul class="breadcrumb">
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/top" itemprop="url"><span itemprop="title">TOP</span></a></li>
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories" itemprop="url"><span itemprop="title">講座一覧</span></a></li>
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories" itemprop="url"><span itemprop="title">初任者研修講座</span></a></li>
+      <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title">アンケート</span></a></li>
+    </ul>
+  </div>
+  <h1 class="headChecksheet"><span>アンケート</span></h1>
+  <section>
+    <div class="heading-border heading-border-irregular thanks-heading">
+      <p class="bold"><%= @bold_text %>アンケートを受け付けました。</p>
+    </div>
+    <div class="area-thanks-message">
+      <p class="thanks-message">
+        <%= simple_format(@thanks_message) %>
+      </p>
+    </div>
+  </section>
+  <div class="area-questionnaire-result">
+    <%= link_to @link_title, @link_url, class: "btn btn-sheet " %>
+  </div>
+</main>

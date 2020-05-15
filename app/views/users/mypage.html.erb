@@ -1,0 +1,224 @@
+<% @page_title = "マイページ（受講状況確認ページ）" %>
+<div class="area-breadcrumb">
+  <ul class="breadcrumb">
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/top" itemprop="url"><span itemprop="title">TOP</span></a></li>
+    <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title">マイページ</span></a></li>
+  </ul>
+</div>
+<h1 class="headChecksheet"><span>マイページ</span></h1>
+<main class="wrap-mypage">
+  <section>
+    <h2>初任者研修講座 進捗状況</h2>
+    <ul class="area-processreport">
+      <% @categories.each do |category| %>
+      <li>
+        <a class="toggle menu heading-border">
+          <span class="bold"><%= category.title %></span>
+          <span><%= category.format_short_description('') %></span>
+        </a>
+        <ul class="inner child">
+          <% category.videos.order(:order).each_with_index do |video, index| %>
+          <li class="area-fig-process">
+            <h3>
+              <span>
+                <% if category.id === 1 %>
+                  チャプター<%= index + 1 %>
+                <% elsif category.id === 2 %>
+                  チャプター<%= index + 1 %>
+                <% else %>
+                  研修項目<%= index + 1 %>
+                <% end %>
+              </span>
+              <p><%= video.title %></p>
+            </h3>
+            <ul class="line-process">
+              <li class=<%= video.checksheet_answered?(@user) ? "done" : "" %>></li><li class=<%= video.checksheet_complete?(@user) ? "done" : "" %>></li>
+            </ul>
+            <ul class="circle-process">
+              <li class=<%= video.watched?(@user) ? "done" : "" %>></li><li class=<%= video.checksheet_answered?(@user) ? "done" : "" %>></li><li class=<%= video.checksheet_complete?(@user) ? "done" : "" %>></li>
+            </ul>
+            <ul class="tx-process">
+              <li>動画を見た</li><li>チェックシートを記入した</li><li>全て適切な回答であった</li>
+            </ul>
+          </li>
+          <% end %>
+          <li class="area-fig-process area-fig-quest">
+            <h3><span>アンケート</span><p>初任者研修講座に関するアンケート</p></h3>
+            <ul class="circle-process">
+              <li class=<%= category.questionnaire_complete?(@user) ? "done" : "" %>></li>
+            </ul>
+            <p class="questionnaire">アンケートを記入し提出した</p>
+            <div class="area-link-quest">
+              <% if category.enable_questionnaire? @user %>
+              <div class="btn"><%= link_to "アンケートへ", category_questionnaires_path(category) %></div>
+              <% else %>
+              <div class="btn btn-invisible"></div>
+              <% end %>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <% end %>
+      <li class="area-fig-process area-fig-quest box-report-botm">
+        <h3><span>アンケート</span><p>ｅラーニングを活用した研修についてのアンケート　</p></h3>
+        <ul class="circle-process">
+          <li class=<%= @user.last_questionnaire_complete? ? "done" : "" %>></li>
+        </ul>
+        <p class="questionnaire">アンケートを記入し提出した</p>
+        <div class="area-link-quest">
+          <% if @user.enable_last_questionnaire? %>
+          <div class="btn"><a href="/last_questionnaire">アンケートへ</a></div>
+          <% else %>
+          <div class="btn btn-invisible"></div>
+          <% end %>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <section class="sec-self">
+    <h2>セルフチェック</h2>
+    <div class="ex-self">
+      <p>それぞれ、5段階で自己評価します。</p>
+      <ul>
+      	<li>1 ほとんどできない（ほとんど理解していない）</li>
+      	<li>2 あまりできない（あまり理解していない）</li>
+      	<li>3 できる（理解している）</li>
+      	<li>4 だいたいできる（だいたい理解している）</li>
+      	<li>5 よくできる（よく理解している）</li>
+      </ul>
+    </div>
+    <ul class="area-processreport">
+      <% @categories.each_with_index do |category, category_index| %>
+      <li>
+        <a class="toggle menu heading-border">
+          <span class="bold"><%= category.title %></span>
+          <span><%= category.format_short_description('') %></span>
+        </a>
+        <div class="inner child area-chart-self">
+          <figure class="box-chart-self">
+            <canvas id="chart<%= category_index %>" width="279px" height="315px">
+            </canvas>
+          </figure>
+          <ol class="area-question-self">
+            <% @assesments["category_id#{category.id}"].each_with_index do |assesment, index| %>
+            <% input_name = "answer#{category_index}_#{index}" %>
+            <% input_id = "select#{category_index}_#{index}" %>
+          	<li>
+              <dl>
+                <dt class="question">
+                  <%= assesment %>
+                </dt>
+                <dd class="answer">
+                  <span>1</span>
+                  <input type="radio" name="<%= input_name %>" id="<%= input_id %>_1" value="1" <%= 'checked' if @radio_checks[category_index][index][0] %>>
+                  <label for="<%= input_id %>_1"></label>
+                  <input type="radio" name="<%= input_name %>" id="<%= input_id %>_2" value="2" <%= 'checked' if @radio_checks[category_index][index][1] %>>
+                  <label for="<%= input_id %>_2"></label>
+                  <input type="radio" name="<%= input_name %>" id="<%= input_id %>_3" value="3" <%= 'checked' if @radio_checks[category_index][index][2] %>>
+                  <label for="<%= input_id %>_3"></label>
+                  <input type="radio" name="<%= input_name %>" id="<%= input_id %>_4" value="4" <%= 'checked' if @radio_checks[category_index][index][3] %>>
+                  <label for="<%= input_id %>_4"></label>
+                  <input type="radio" name="<%= input_name %>" id="<%= input_id %>_5" value="5" <%= 'checked' if @radio_checks[category_index][index][4] %>>
+                  <label for="<%= input_id %>_5"></label>
+                  <span>5</span>
+                </dd>
+              </dl>
+            </li>
+            <% end %>
+          </ol>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </section>
+</main>
+
+<script type="text/javascript">
+function demo2(){
+  $(this).toggleClass("active").next().slideToggle(300);
+}
+
+$(".toggle").click(demo2);
+</script>
+<%= javascript_include_tag "Chart.min" %>
+<script>
+  $(function() {
+    var charts = [];
+    // レーダーチャートで表示するデータを用意
+    radioCheckValues = <%= @radio_check_values %>
+    for (var i = 0; i < 3; i++) {
+      var radarChartData = {
+        labels: ["①", "②", "③", "④", "⑤", "⑥"],
+        datasets: [
+          {
+            backgroundColor: "rgba(143,196,0,0.2)",
+            borderColor: "rgba(143,196,0,1)",
+            pointBackgroundColor: "rgba(143,196,0,1)",
+            pointBorderColor: "#fff",
+            data: radioCheckValues[i]
+          }
+        ]
+      };
+
+      // Canvas にレーダーチャートを描画
+      var canvas = document.getElementById("chart" + i);
+      var context = canvas.getContext("2d");
+      var chart = new Chart(context, {
+        type: 'radar',
+        data: radarChartData,
+        options: {
+          scale: {
+            reverse: false,
+            ticks: {
+              min: 0,
+              max: 5,
+              display: false,
+              beginAtZero: true
+            },
+            pointLabels: {
+              fontSize: 15
+            }
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: false
+          }
+        }
+      });
+
+      charts[i] = chart;
+
+      // ラジオボタンにイベントリスナーを登録する
+      for (var j = 0; j < 6; j++) {
+        var radioName = 'answer' + i + '_' + j;
+        for (var k = 0; k < 5; k++) {
+          var radioId = 'select' + i + '_' + j + '_' + (k + 1);
+          $('#' + radioId).click(function() {
+            var info = this.id.replace('select', '').split('_');
+            charts[info[0]].data.datasets[0].data[info[1]] = this.value;
+            charts[info[0]].update();
+
+            var answer = [0, 0, 0, 0, 0, 0];
+
+            $.each($("input[type=radio][id^=select" + info[0] + "_]:checked"), function(index, radio) {
+              var radio_info = radio.id.replace('select', '').split('_');
+              if (radio_info[0] === info[0]) {
+                answer[radio_info[1]] = radio.value;
+              }
+            });
+
+            $.post("/self_checks/save", {
+              'self_check' : {
+                'user_id' : <%= current_user.id %>,
+                'category_id' : parseInt(info[0]) + 1,
+                'answer' : answer
+              }
+            });
+          });
+        }
+      }
+    }
+  });
+</script>

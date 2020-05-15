@@ -1,0 +1,52 @@
+<% @page_title = "教材一覧ページ#{@category.title}" %>
+<main class="wrap-chapterlist">
+	<section>
+    <h1><%= image_tag "headTeachingList.png", alt: "教員研修 e-learning SYSTEM 教材一覧" %></h1>
+
+    <%= render 'shared/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+    <section class="sec-chapterlist">
+      <h2 class="heading-border">
+        <p class="bold"><%= @category.title %></p>
+        <p><%= @category.format_short_description('') %></p>
+      </h2>
+
+      <section class="area-chapterlist">
+        <ul class="list-chapterlist">
+          <% @videos.each_with_index do |video, index| %>
+            <li class="list-chapterlist-pi">
+              <h3>
+								<% if @category.id === 1 %>
+								<span>チャプター<%= index + 1 %></span>
+								<% elsif @category.id === 2 %>
+								<span>チャプター<%= index + 1 %></span>
+								<% else %>
+								<span>研修項目<%= index + 1 %></span>
+								<% end %>
+                <%= video.title %>
+              </h3>
+              <div class="area-img-movie">
+                <%= image_tag video.thumbnail_url, alt: "", class: "img-movie", width: "452px" %>
+								<% if index + 1 == 1 then%>
+                <%= link_to image_tag("btnAttend.png", alt: "受講する"), video %>
+								<% elsif ChecksheetAnswer.is_correct?(current_user.id, @videos[index - 1].id) %>
+                <%= link_to image_tag("btnAttend.png", alt: "受講する"), video %>
+								<% end %>
+              </div>
+							<div class="area-contents">
+								<h4><%= index + 1 %>. <%= video.title %></h4>
+								<ul class="tx-contents">
+									<%= simple_format(video.description) %>
+								</ul>
+							</div>
+              <p class="data-videotime">(講義ビデオ<%= video.playtime %>)</p>
+            </li>
+						<% if index + 1 < @videos.length %>
+						<hr>
+						<% end %>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+  </section>
+</main>

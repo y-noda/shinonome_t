@@ -1,0 +1,94 @@
+<% @page_title = "初任者研修講座　ログインページ" %>
+<div id="modal-content">
+  <h1>お知らせ</h1>
+  <p>教科等指導については中学校については受講の必要はありません。</p>
+  <p id="modal-close" class="modal-close-link">このページを閉じる</p>
+</div>
+<main class="wrap-top">
+  <section>
+    <h1><%= image_tag "headCatchCopy.png", alt: "子供の未来のために「学び続ける」教員でありたい 教員研修 e-learning SYSTEM" %></h1>
+    <section class="sec-top sec-vision">
+      <h2>奈良県立教育研究所　eラーニング研修</h2>
+      <p>
+      &emsp;インターネットを利用した研修です。指定された期間内であれば繰り返し視聴でき、受講者は自分のペースで研修をすすめ、学びを深めることができます。受講にはユーザＩＤとパスワードが必要です。
+      </p>
+    </section>
+    <div class="area-login-contents">
+      <h2>eラーニング研修　「初任者研修講座」</h2>
+      <div>
+        <%= image_tag "headLogin.png", alt: "ログイン" %>
+      </div>
+      <div class="form-login">
+        <% if flash.alert %><p class="alert"><%= flash.alert %></p><% end %>
+        <%= form_tag user_sessions_path, method: :post do %>
+          <dl>
+            <dt><label for="name">ユーザID</label></dt>
+            <dd><%= text_field_tag "name", "" %></dd>
+            <dt><label for="PASSWORD">パスワード</label></dt>
+            <dd><%= password_field_tag "password", "" %></dd>
+          </dl>
+          <p class="btn-submit-login"><%= button_tag "ログイン", class: "btn" %></p>
+          <p class="btn-login-description">
+            eラーニングを受講するには、あらかじめ配布されたログインIDとパスワードでログインします。
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="text/javascript">
+$(document).ready(function() {
+  //キーボード操作などにより、オーバーレイが多重起動するのを防止する
+  $(this).blur() ;	//ボタンからフォーカスを外す
+  if($("#modal-overlay")[0]) return false ;		//新しくモーダルウィンドウを起動しない [下とどちらか選択]
+  //if($("#modal-overlay")[0]) $("#modal-overlay").remove() ;		//現在のモーダルウィンドウを削除して新しく起動する [上とどちらか選択]
+
+  //オーバーレイ用のHTMLコードを、[body]内の最後に生成する
+  $("body").append('<div id="modal-overlay"></div>');
+
+  //[$modal-overlay]をフェードインさせる
+  // $("#modal-overlay").fadeIn("fast");
+  $("#modal-overlay").show();
+
+  centeringModalSyncer();
+
+  $("#modal-content").show();
+
+  //[#modal-overlay]、または[#modal-close]をクリックしたら…
+	$( "#modal-overlay,#modal-close" ).unbind().click( function(){
+
+		//[#modal-content]と[#modal-overlay]をフェードアウトした後に…
+		$( "#modal-content,#modal-overlay" ).fadeOut( "fast" , function(){
+
+			//[#modal-overlay]を削除する
+			$('#modal-overlay').remove() ;
+
+		} ) ;
+
+	} ) ;
+
+});
+$( window ).resize( centeringModalSyncer ) ;
+
+function centeringModalSyncer(){
+
+	var w = $(window).width();
+	var h = $(window).height();
+
+  var cw = $( "#modal-content" ).outerWidth();
+  var ch = $( "#modal-content" ).outerHeight();
+
+	//コンテンツ(#modal-content)を真ん中に配置するのに、左端から何ピクセル離せばいいか？を計算して、変数[pxleft]に格納
+	var pxleft = ((w - cw)/2);
+
+	//コンテンツ(#modal-content)を真ん中に配置するのに、上部から何ピクセル離せばいいか？を計算して、変数[pxtop]に格納
+	var pxtop = ((h - ch)/2);
+
+	//[#modal-content]のCSSに[left]の値(pxleft)を設定
+	$("#modal-content").css({"left": pxleft + "px"});
+
+	//[#modal-content]のCSSに[top]の値(pxtop)を設定
+	$("#modal-content").css({"top": pxtop + "px"});
+
+}
+</script>

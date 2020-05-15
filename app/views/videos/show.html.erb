@@ -1,0 +1,89 @@
+<% @page_title = "動画と補助教材（スライド等資料）ページ" %>
+<link href="//vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+<script src="//vjs.zencdn.net/5.4.6/video.min.js"></script>
+<div class="area-movie">
+  <iframe class="frame" src="/video?video_id=<%= @video.id %>" width="880" height="496" scrolling="no"></iframe>
+</div>
+<main class="wrap-text">
+  <div class="area-breadcrumb">
+    <ul class="breadcrumb">
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/top" itemprop="url"><span itemprop="title">TOP</span></a></li>
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories" itemprop="url"><span itemprop="title">講座一覧</span></a></li>
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title"><%= link_to "初任者研修講座", categories_path %></span></a></li>
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title"><%= @video.title %></span></a></li>
+    </ul>
+  </div>
+
+  <section class="sec-textcontents">
+    <h1 class="heading-border">
+      <p class="bold"><%= @category.title %></p>
+      <p><%= @category.format_short_description('') %></p>
+    </h1>
+    <section>
+      <h2><span><%= @chapter_text %><%= @video.order.to_s %></span><%= @video.title %></h2>
+      <ol class="tx-contents">
+        <%= simple_format(@video.description) %>
+      </ol>
+
+    </section>
+  </section>
+  <section class="sec-supporttext">
+    <h2>補助教材</h2>
+    <% if @video.have_slide? || @video.have_worksheet? then %>
+    <p>
+      この研修には補助教材があります。<br>
+ダウンロードして動画の視聴時に利用してください。
+    </p>
+    <ul>
+      <% if @video.have_slide? then %>
+      <li class="btn btn-supporetext"><%= link_to "スライド資料 (PDF：#{@video.format_slide_file_size})", @video.slideurl, target: "_brank" %></li>
+      <% end %>
+      <% if @video.have_worksheet? then %>
+      <li class="btn btn-supporetext"><%= link_to "ワークシート (PDF：#{@video.format_worksheet_file_size})", @video.worksheeturl, target: "_brank" %></li>
+      <% end %>
+    </ul>
+    <% else %>
+    <p>
+      今回この講座には補助教材はありません。
+    </p>
+    <% end %>
+  </section>
+
+  <section class="sec-process">
+    <h2>研修の進め方</h2>
+    <figure><%= image_tag "figProcess.png", alt: "動画の視聴、チェックシート、アンケート" %></figure>
+    <p>
+      <%= @to_checksheet_text %>
+    </p>
+    <%= link_to "チェックシートへ", checksheets_path(video_id: @video.id), id: "id-btn-checksheet" %>
+  </section>
+
+  <script type="text/javascript">
+  function endVideo() {
+    $("#id-btn-checksheet").removeClass("btn-disable").removeClass("btn-sheet-disable").removeClass("click-shield");
+    $("#id-btn-checksheet").addClass("btn").addClass("btn-sheet");
+    $("#id-btn-checksheet").unbind('click');
+    $.post("/progresses", {
+      'progress[user_id]': <%= current_user.id %>,
+      'progress[video_id]': <%= @video.id %>
+    }, function(data){
+    });
+  }
+  function init(){
+  };
+  $(function(){
+  	init();
+    $.get("/progresses?user_id=<%= current_user.id %>&video_id=<%= @video.id %>", function(data) {
+      if (data.result) {
+        $("#id-btn-checksheet").addClass("btn").addClass("btn-sheet");
+      } else {
+        $("#id-btn-checksheet").addClass("btn-disable").addClass("btn-sheet-disable").addClass("click-shield");
+        $("#id-btn-checksheet").click(function(){
+           return false;
+        });
+      }
+    });
+  });
+  </script>
+
+</main>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= page_title %></title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag controller.controller_name, media: "all" %>
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag controller.controller_name %>
+  <%= csrf_meta_tags %>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- SCRIPTS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+  <div id='header'>
+    <%= render 'shared/header' %>
+  </div>
+
+  <%= yield %>
+
+  <div id='footer'>
+    <%= render 'shared/footer' %>
+  </div>
+
+
+  <script type="text/javascript">
+  $(function(){
+    $('nav ul li a').each(function(){
+      var $href = $(this).attr('href');
+      if($href !== "" && location.href.match($href)) {
+      $(this).addClass('active');
+      } else {
+      $(this).removeClass('active');
+      }
+    });
+  });
+  </script>
+</body>
+</html>

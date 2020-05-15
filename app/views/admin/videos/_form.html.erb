@@ -1,0 +1,64 @@
+<%= form_for([:admin] + shallow_args(@category, @video)) do |f| %>
+  <% if @video.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
+
+      <ul>
+      <% @video.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label 'チャプター名' %>
+    <%= f.text_field :title, size: '50' %><br>
+    <%= f.label '説明' %><br>
+    <%= f.text_area :description, size: '100x5' %><br>
+
+    <%= f.label '動画ファイル' %>
+    <%= f.file_field :videofile, style: "display:none;", onchange: "$('#fake_input_file_1').text($(this)[0].files[0].name)" %><br>
+    <input type="button" value="ファイル選択" onClick="$('#video_videofile').click();">
+    <span id="fake_input_file_1">
+      <%= @video.videofile_file_name.nil? ? '選択されていません' : @video.videofile_file_name %>
+    </span>
+    <br>
+    <br>
+
+    <%= f.label '動画サムネイル画像' %>
+    <%= f.file_field :thumbnail, style: "display:none;", onchange: "$('#fake_input_file_2').text($(this)[0].files[0].name)" %><br>
+    <input type="button" value="ファイル選択" onClick="$('#video_thumbnail').click();">
+    <span id="fake_input_file_2">
+      <%= @video.thumbnail_file_name.nil? ? '選択されていません' : @video.thumbnail_file_name %>
+    </span>
+    <br>
+    <br>
+
+    <%= f.label '動画の長さ' %><br>
+    <%= f.number_field :minutes, min: 0, step: 1 %><span>分</span>
+    <%= f.number_field :seconds, min: 0, max: 59, step: 1 %><span>秒</span><br>
+    <br>
+
+    <%= f.label 'ワークシート' %>
+    <%= f.file_field :worksheet, style: "display:none;", onchange: "$('#fake_input_file_3').text($(this)[0].files[0].name)" %><br>
+    <input type="button" value="ファイル選択" onClick="$('#video_worksheet').click();">
+    <span id="fake_input_file_3">
+      <%= @video.worksheet_file_name.nil? ? '選択されていません' : @video.worksheet_file_name %>
+    </span>
+    <br>
+    <br>
+
+    <%= f.label 'スライド資料' %>
+    <%= f.file_field :slide, style: "display:none;", onchange: "$('#fake_input_file_4').text($(this)[0].files[0].name)" %><br>
+    <input type="button" value="ファイル選択" onClick="$('#video_slide').click();">
+    <span id="fake_input_file_4">
+      <%= @video.slide_file_name.nil? ? '選択されていません' : @video.slide_file_name %>
+    </span>
+    <br>
+    <br>
+  </div>
+  <div class="actions">
+    <%= f.submit @text, class: "btn btn-primary"%>
+  </div>
+<% end %>

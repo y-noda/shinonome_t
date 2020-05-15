@@ -1,0 +1,14 @@
+<div class="headerIn">
+  <p class="tx-organization"><a href="http://www.nps.ed.jp/nara-c/" target="_brank"><%= image_tag "txOrganization.png", alt: "Nara Prefectural Institute for Educational Research" %></a></p>
+  <% unless current_page?(:root) %>
+  <nav>
+    <ul>
+      <li><%= link_to image_tag("btnTopG.png", alt: "TOP"), controller: 'top', action: 'index' %></li>
+      <li><%= link_to image_tag("btnTextG.png", alt: "教材一覧"), controller: 'categories', action: 'index' %></li>
+      <li><a href="/mypage"><%= image_tag "btnMypage.png", alt: "マイページ" %></a></li>
+      <li class="btn-mypage"><%= link_to image_tag("btnLogout.png", alt: "ログアウト"), :logout,
+      method: :post, data: { confirm: "ログアウトしますか？" } %></li><br>
+    </ul>
+  </nav>
+  <% end %>
+</div>

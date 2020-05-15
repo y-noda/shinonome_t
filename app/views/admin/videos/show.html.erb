@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @video.title %><br>
+  <strong>Description:</strong>
+  <%= @video.description %><br>
+  <strong>Videofile:</strong>
+  <%= link_to 'プレビュー', @video.videofile.url %><br>
+  <strong>Worksheet:</strong>
+  <%= link_to 'プレビュー', @video.worksheet.url %><br>
+  <strong>Slide:</strong>
+  <%= link_to 'プレビュー', @video.slide.url %><br>
+</p>
+
+<%= link_to 'Edit', edit_admin_video_path(@video) %> |
+<%= link_to 'Back', admin_categories_path %>

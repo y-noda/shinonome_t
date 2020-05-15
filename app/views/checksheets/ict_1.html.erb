@@ -1,0 +1,124 @@
+<div class="area-breadcrumb">
+  <ul class="breadcrumb">
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/top" itemprop="url"><span itemprop="title">TOP</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories" itemprop="url"><span itemprop="title">講座一覧</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/categories/1/videos" itemprop="url"><span itemprop="title">初任者研修講座「情報教育と情報モラル」</span></a></li>
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title"><%= @chapter_title %></span></a></li>
+    <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title">チェックシート</span></a></li>
+  </ul>
+</div>
+<h1 class="headChecksheet"><span>チェックシート</span></h1>
+<main class="wrap-checksheet">
+  <section>
+    <div class="heading-border">
+      <p class="bold">「情報教育と情報モラル」</p>
+    </div>
+    <h2><span>チャプター<%= @chapter_number %></span><p><%= @chapter_title %></p></h2>
+
+    <ol class="area-question">
+      <%= form_tag checksheets_path(anchor: 'post-anchor'), method: :post do %>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q1</p>
+            <p class="first-half"><%= @checksheet_1.question %></p>
+          </dt>
+          <% if @chapter_number === 1 %>
+          <dd class="answer">
+            <input type="radio" name="choice_1" id="select1" value="1">
+            <label for="select1"><%= @checksheet_1.choice_a %></label>
+            <input type="radio" name="choice_1" id="select2" value="2">
+            <label for="select2"><%= @checksheet_1.choice_b %></label>
+            <input type="radio" name="choice_1" id="select3" value="3">
+            <label for="select3"><%= @checksheet_1.choice_c %></label>
+            <input type="radio" name="choice_1" id="select4" value="4">
+            <label for="select4"><%= @checksheet_1.choice_d %></label>
+          </dd>
+          <% else %>
+          <dd class="answerbox">
+            <input type="checkbox" name="choice_1[]" id="select1" value="1">
+            <label for="select1"><%= @checksheet_1.choice_a %></label>
+            <input type="checkbox" name="choice_1[]" id="select2" value="2">
+            <label for="select2"><%= @checksheet_1.choice_b %></label>
+            <input type="checkbox" name="choice_1[]" id="select3" value="3">
+            <label for="select3"><%= @checksheet_1.choice_c %></label>
+            <input type="checkbox" name="choice_1[]" id="select4" value="4">
+            <label for="select4"><%= @checksheet_1.choice_d %></label>
+          </dd>
+          <% end %>
+        </dl>
+      </li>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q2</p>
+            <p class="first-half"><%= @checksheet_2.question %><br></p>
+          </dt>
+          <dd class="answerbox">
+            <input type="checkbox" name="choice_2[]" id="select5" value="1">
+            <label for="select5"><%= @checksheet_2.choice_a %></label>
+            <input type="checkbox" name="choice_2[]" id="select6" value="2">
+            <label for="select6"><%= @checksheet_2.choice_b %></label>
+            <input type="checkbox" name="choice_2[]" id="select7" value="3">
+            <label for="select7"><%= @checksheet_2.choice_c %></label>
+            <input type="checkbox" name="choice_2[]" id="select8" value="4">
+            <label for="select8"><%= @checksheet_2.choice_d %></label>
+          </dd>
+        </dl>
+      </li>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q3</p>
+            <p class="first-half"><%= @checksheet_3.question %></p>
+          </dt>
+          <% if @chapter_number === 1 %>
+          <dd class="answer">
+            <input type="radio" name="choice_3" id="select9" value="1">
+            <label for="select9"><%= @checksheet_3.choice_a %></label>
+            <input type="radio" name="choice_3" id="select10" value="2">
+            <label for="select10"><%= @checksheet_3.choice_b %></label>
+            <input type="radio" name="choice_3" id="select11" value="3">
+            <label for="select11"><%= @checksheet_3.choice_c %></label>
+            <input type="radio" name="choice_3" id="select12" value="4">
+            <label for="select12"><%= @checksheet_3.choice_d %></label>
+          </dd>
+          <% else %>
+          <dd class="answerbox">
+            <input type="checkbox" name="choice_3[]" id="select9" value="1">
+            <label for="select9"><%= @checksheet_3.choice_a %></label>
+            <input type="checkbox" name="choice_3[]" id="select10" value="2">
+            <label for="select10"><%= @checksheet_3.choice_b %></label>
+            <input type="checkbox" name="choice_3[]" id="select11" value="3">
+            <label for="select11"><%= @checksheet_3.choice_c %></label>
+            <input type="checkbox" name="choice_3[]" id="select12" value="4">
+            <label for="select12"><%= @checksheet_3.choice_d %></label>
+          </dd>
+          <% end %>
+        </dl>
+      </li>
+    <div class="end">
+      <div class="box">
+        <div class="actions">
+          <%= submit_tag '送信', class: "submit" %>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <%= hidden_field_tag :checksheet_1, @checksheet_1.id %>
+      <%= hidden_field_tag :checksheet_2, @checksheet_2.id %>
+      <%= hidden_field_tag :checksheet_3, @checksheet_3.id %>
+      <%= hidden_field_tag :chapter_number, @chapter_number %>
+      <%= hidden_field_tag :category_id, @category_id %>
+    </div>
+  <% end %>
+    </ol>
+  </section>
+</main>
+<% if @result_text_1 %>
+<div class="area-result">
+  <a style="pointer-events: none;" name="post-anchor"><h3><%= @result_text_1 %></h3></a>
+  <%= simple_format(@result_text_2,  class: @is_correct ? "tx-correct" : "") %>
+  <div class="btn"><%= link_to @result_link_text, @result_link %></div>
+</div>
+<% end %>

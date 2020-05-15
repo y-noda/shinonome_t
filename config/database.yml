@@ -1,0 +1,26 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  username: shinonome
+  password: shinonome
+  host: <%= ENV['POSTGRESQL_URL'] || 'localhost' %>
+
+development:
+  <<: *default
+  database: shinonome_development
+
+test:
+  <<: *default
+  database: shinonome_test
+
+production:
+  <<: *default
+  database: shinonome

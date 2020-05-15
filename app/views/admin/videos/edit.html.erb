@@ -1,0 +1,7 @@
+<h1>チャプターの編集</h1>
+
+<%= render 'form' %>
+
+<%= link_to "チャプターを削除", admin_video_path(@video), :method => :delete, :data => { :confirm => "削除してもよろしいですか？(削除後は取り消せません)" }, class: "btn btn-danger" %>
+
+<%= link_to 'もどる', admin_category_videos_path(@category), class: "btn btn-default" %>

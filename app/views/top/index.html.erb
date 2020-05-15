@@ -1,0 +1,53 @@
+<% @page_title = "スタートページ" %>
+<main class="wrap-top">
+  <section>
+    <h1><%= image_tag "headCatchCopy.png", alt: "子供の未来のために「学び続ける」教員でありたい 教員研修 e-learning SYSTEM" %></h1>
+    <section class="sec-top sec-vision">
+      <h2>奈良県立教育研究所　eラーニング研修</h2>
+      <p>
+      &emsp;インターネットを利用した研修です。指定された期間内であれば繰り返し視聴でき、受講者は自分のペースで研修をすすめ、学びを深めることができます。
+      </p>
+    </section>
+    <div class="area-description">
+      <h2>eラーニング研修　「初任者研修講座」</h2>
+      <p>
+        さあ、eラーニング研修を始めましょう。
+      </p>
+    </div>
+    <div class="area-link-contents">
+      <div>
+        <ul class="linkarea-textList">
+          <li class="link-textList">
+            <%= link_to image_tag("btnPrimarySchoolStart.png", alt: "講座一覧"), controller: 'categories', action: 'index' %>
+            <p>eラーニング研修を始めましょう</p>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <ul class="linkarea-manual">
+          <li class="link-manual">
+            <a href="./elearning_manual.pdf" target="_blank"><%= image_tag "btnManual.png", alt: "受講者マニュアル" %></a>
+            <p>受講者マニュアルをダウンロードしましょう</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="area-btn-mypage">
+      <a class="btn" href="/mypage">マイページ</a>
+    </div>
+    <div class="area-adobe">
+      <h2>eラーニング研修はPDF形式のファイルを含みます。</h2>
+      <div class="area-adobe-link">
+        <div class="area-adobe-link-image">
+          <a href="https://acrobat.adobe.com/jp/ja/acrobat/pdf-reader.html" target="_blank"><%= image_tag "btnAdobeAcrobatReader.png", alt: "AdobeReader" %></a>
+        </div>
+        <div class="area-adobe-link-text">
+          <p>PDF形式ファイルをご覧いただくには、Adobe社のAdobe Readerが必要となります。
+          お持ちでない方はAdobe社サイトから最新のAdobeReader (無償) をダウンロードし、
+          インストールしてください。</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>

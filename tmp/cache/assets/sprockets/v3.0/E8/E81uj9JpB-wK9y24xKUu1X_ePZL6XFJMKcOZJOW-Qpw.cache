@@ -1,0 +1,9 @@
+I"É(function() {
+  $(function() {
+    return $(document).on("keydown", "input:submit", function(e) {
+      return e.which && e.which !== 13 || e.keyCode && e.keyCode !== 13;
+    });
+  });
+
+}).call(this);
+:ET

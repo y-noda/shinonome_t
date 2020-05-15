@@ -1,0 +1,25 @@
+<%= form_for [:admin, @category] do |f| %>
+  <% if @category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+      <% @category.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '講座名' %><br>
+    <%= f.text_field :title %><br>
+    <%= f.label 'カテゴリ' %><br>
+    <%= f.collection_select :category_type_id, CategoryType.all, :id, :title, {}, style: 'width:150px' %><br>
+    <%= f.label '説明' %><br>
+    <%= f.text_area :short_description, size: '100x5' %><br>
+  </div>
+  <div class="actions">
+    <%= f.submit @text, class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>設問:</strong>
+  <%= @questionnaire.question %>
+</p>
+
+<%= link_to '編集', edit_admin_questionnaire_path(@questionnaire) %> |
+<%= link_to '戻る', admin_categories_path %>

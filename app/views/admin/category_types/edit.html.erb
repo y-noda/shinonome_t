@@ -1,0 +1,7 @@
+<h1>講座カテゴリの編集</h1>
+
+<%= render 'form' %>
+
+<%= link_to "講座カテゴリを削除", admin_category_type_path(@category_type), :method => :delete, :data => { :confirm => "削除してもよろしいですか？(削除後は取り消せません)" }, class: "btn btn-danger" %>
+
+<%= link_to 'もどる', admin_categories_path, class: "btn btn-default" %>

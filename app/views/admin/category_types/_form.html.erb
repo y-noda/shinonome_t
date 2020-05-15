@@ -1,0 +1,21 @@
+<%= form_for [:admin, @category_type] do |f| %>
+  <% if @category_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@category_type.errors.count, "error") %> prohibited this category_type from being saved:</h2>
+
+      <ul>
+      <% @category_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '講座カテゴリ名' %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="actions">
+    <%= f.submit @text, class: 'btn btn-primary' %>
+  </div>
+<% end %>

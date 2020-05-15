@@ -1,0 +1,6 @@
+<h1>アンケート設問編集</h1>
+
+<%= render 'form' %>
+
+<%= link_to '削除', admin_questionnaire_path(@questionnaire), method: :delete, data: { confirm: '削除してもよろしいですか？(削除後は取り消せません)' }, class: 'btn btn-danger' %>
+<%= link_to '戻る', admin_category_questionnaires_path(@category) %>

@@ -1,0 +1,34 @@
+<% @page_title = "講座一覧ページ" %>
+<main class="wrap-textlist">
+	<section>
+		<h1>
+			<%= image_tag "headTeachingListCategory.png", alt: "教員研修 e-learning SYSTEM 講座一覧" %>
+		</h1>
+    <h2 class="heading-border">
+      <p class="bold">初任者研修講座</p>
+    </h2>
+    <div class="area-textlist">
+      <ul class="list-textlist">
+        <% @categories.each do |category| %>
+        <li>
+          <div class="area-img-movie">
+            <%= image_tag "imgMovieTakingLectures_0#{category.id}.png", class: "img-movie" %>
+						<%= link_to image_tag("btnMovieTakingLectures.png", width: 96, height: 23, alt: "受講する"), category_videos_path(category) %>
+          </div>
+          <dl>
+            <dt class="tit-text-list">
+              <%= category.title %>
+            </dt>
+            <dd>
+              <p class="title"><%= simple_format(category.format_short_description('<br>')) %></p>
+              <p>
+                <%= category.description %>
+              </p>
+            </dd>
+          </dl>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </section>
+</main>

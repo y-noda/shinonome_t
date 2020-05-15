@@ -1,0 +1,16 @@
+postgres:
+  image: postgres:9.6
+  restart: always
+  expose:
+    - "5432"
+  environment:
+    POSTGRES_PASSWORD: shinonome
+    POSTGRES_USER: shinonome
+    POSTGRES_DB: shinonome_test
+
+shinonome_app:
+  build: ./
+  links:
+    - postgres:postgres
+  volumes:
+    - ./tmp:/app/tmp

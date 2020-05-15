@@ -1,0 +1,22 @@
+<h1>アンケート設問一覧</h1>
+
+<div class='table-responsive'>
+  <%= link_to '設問追加', new_admin_category_questionnaire_path(@category), class: 'btn btn-primary' %>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th>設問</th>
+        <th>編集</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @questionnaires.each do |questionnaire| %>
+        <tr>
+          <td><%= questionnaire.question %></td>
+          <td><%= link_to '編集', edit_admin_questionnaire_path(questionnaire) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

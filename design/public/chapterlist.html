@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>教材一覧</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<header>
+  <div class="headerIn">
+    <p class="tx-organization"><img src="img/txOrganization.png" alt="Nara Prefectural Institute for Educational Research"></p>
+    <nav>
+      <ul>
+        <li><a href="index.html"><img src="img/btnTopG.png" alt="TOP"></a></li>
+        <li><a href="textlist.html"><img src="img/btnTextG.png" alt="教材一覧"></a></li>
+        <li class="btn-mypage"><a href=""><img src="img/btnMypage.png" alt="My page"></a></li><br>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap-chapterlist">
+	<section>
+    <h1><img src="img/headTeachingList.png" alt="教員研修 e-learning SYSTEM 教材一覧"></h1>
+    <div class="area-breadcrumb">
+      <ul class="breadcrumb">
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title">TOP</span></a></li>
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title">教材一覧</span></a></li>
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title">初任者研修講座</span></a></li>
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="" itemprop="url"><span itemprop="title">よりよい授業を目指して</span></a></li>
+        <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a class="current" href="" itemprop="url"><span itemprop="title">チェックシート</span></a></li>
+      </ul>
+    </div>
+    <section class="sec-chapterlist">
+      <h2 class="heading-border">
+        <p class="bold">初任者研修講座　「教科書指導X」</p>
+        <p>ー授業研究の充実に向けてー</p>
+        <p class="small">（学習指導案の書き方など）</p>
+      </h2>
+
+    
+      <section class="area-chapterlist">
+        <ul class="list-chapterlist">
+          <li class="list-chapterlist-pi">
+            <h3>
+              <span>チャプター1</span>
+              よりよい授業を目指して
+            </h3>
+            <div class="area-img-movie">
+              <img class="img-movie" src="img/imgChapterList.png" alt="">
+              <a href="text.html"><img src="img/btnAttend.png" width="165" height="27" alt="受講する"></a>
+            </div>
+            <div class="area-contents">
+              <h4>1. よりよい授業を目指して</h4>
+              <ul class="tx-contents">
+                <li>よりよい授業とは</li>
+                <li>授業研究について</li>
+              </ul>
+              <p class="data-videotime">(講義ビデオ10分)</p>
+            </div>
+          </li>
+          <li class="list-chapterlist-pi">
+            <h3>
+              <span>チャプター1</span>
+              よりよい授業を目指して
+            </h3>
+            <div class="area-img-movie">
+              <img class="img-movie" src="img/imgChapterList.png" alt="">
+              <a href="text.html"><img src="img/btnAttend.png" width="165" height="27" alt="受講する"></a>
+            </div>
+            <div class="area-contents">
+              <h4>1. よりよい授業を目指して</h4>
+              <ul class="tx-contents">
+                <li>よりよい授業とは</li>
+                <li>授業研究について</li>
+              </ul>
+              <p class="data-videotime">(講義ビデオ10分)</p>
+            </div>
+          </li>
+          <li class="list-chapterlist-pi">
+            <h3>
+              <span>チャプター1</span>
+              よりよい授業を目指して
+            </h3>
+            <div class="area-img-movie">
+              <img class="img-movie" src="img/imgChapterList.png" alt="">
+              <a href="text.html"><img src="img/btnAttend.png" width="165" height="27" alt="受講する"></a>
+            </div>
+            <div class="area-contents">
+              <h4>1. よりよい授業を目指して</h4>
+              <ul class="tx-contents">
+                <li>よりよい授業とは</li>
+                <li>授業研究について</li>
+              </ul>
+              <p class="data-videotime">(講義ビデオ10分)</p>
+            </div>
+          </li>
+          
+
+        </ul>
+      </section>
+    </section>
+  </section>
+</main>
+<footer>
+  <div class="footerIn">
+    <p class="lg-footer"><img src="img/lgFooter.png" alt="教員研修 e-learning SYSTEM"></p>
+  </div>
+  <p class="copyright">Copyright&copy; Nara Prefectural Institute for Educational Research All Rights Reserved.</p>
+</footer>
+
+
+<!-- SCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<!--navの現在地に.activeを付与-->
+<script type="text/javascript">
+$(function(){
+	$('nav ul li a').each(function(){
+		var $href = $(this).attr('href');
+		if(location.href.match($href)) {
+		$(this).addClass('active');
+		} else {
+		$(this).removeClass('active');
+		}
+	});
+});
+</script>
+
+</body>
+</html>

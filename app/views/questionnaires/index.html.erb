@@ -1,0 +1,168 @@
+<% if @category %>
+  <% @page_title = "初任者研修講座に関するアンケートページ" %>
+<% else %>
+  <% @page_title = "ｅラーニングを活用した研修についてのアンケートページ" %>
+<% end %>
+
+<main class="wrap-checksheet">
+  <%= render 'shared/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+  <h1 class="headChecksheet"><span>アンケート</span></h1>
+  <section>
+    <div class="heading-border heading-border-irregular">
+      <p class="bold"><%= @item_prop_title_2 %></p>
+      <p><%= @item_prop_title_1 %></p>
+      <p class="small"><%= @description %></p>
+    </div>
+    <%= form_for(@questionnaire_answer) do |f| %>
+    <ol class="area-question">
+      <% read_only = @confirming === 'confirming' ? "readonly" : "" %>
+      <% @questionnaires.each_with_index do |questionnaire, index| %>
+      <li>
+        <dl>
+          <dt class="question irregular">
+            <p class="number">Q<%= index+1 %></p>
+            <p class="first-half" style="width: 832px"><%= questionnaire.question %></p>
+          </dt>
+          <% if questionnaire.is_radio? %>
+            <dd class="answer">
+              <% for choice_index in 1..4 %>
+                <% checked = @questionnaire_answer.is_checked?(questionnaire.question_type, index, choice_index) ? "checked" : read_only.blank? ? "" : "disabled" %>
+                <input type="radio" name="answer[radio_<%= index %>]" id="select<%= 4*index+choice_index %>" value="<%= choice_index %>" <%= checked %>>
+                <label for="select<%= 4*index+choice_index %>"><%= questionnaire.get_question(choice_index) %></label>
+                <% if read_only.present? && @questionnaire_answer.is_checked?(questionnaire.question_type, index, choice_index) %>
+                <input type="hidden" name="answer[radio_<%= index %>]" id="select<%= 4*index+choice_index %>" value="<%= choice_index %>">
+                <% end %>
+              <% end %>
+            </dd>
+          <% elsif questionnaire.is_checkbox? %>
+            <dd class="answerbox">
+              <% for choice_index in 1..4 %>
+                <% checked = @questionnaire_answer.is_checked?(questionnaire.question_type, index, choice_index) ? "checked" : "" %>
+                <% unless questionnaire.get_question(choice_index).blank? %>
+                  <input type="checkbox" name="answer[checkbox_<%= index %>][]" id="select<%= 4*index+choice_index %>" value="<%= choice_index %>" <%= checked %> <%= read_only.present? ? "disabled" : "" %>>
+                  <label for="select<%= 4*index+choice_index %>">
+                  <span><%= questionnaire.get_question(choice_index) %></span>
+                  <% if questionnaire.get_question(choice_index).include?("その他") %>
+                    <% checkbox_free = @questionnaire_answer.checkbox_free_answer(index) %>
+                    <textarea id="checkbox_<%= index %>_free" class="textbox-other" name="answer[checkbox_<%= index %>_free]" <%= read_only %>><%= checkbox_free %></textarea>
+                  <% end %>
+                  </label>
+                  <% if read_only.present? && @questionnaire_answer.is_checked?(questionnaire.question_type, index, choice_index) %>
+                  <input type="hidden" name="answer[checkbox_<%= index %>][]" id="select<%= 4*index+choice_index %>" value="<%= choice_index %>">
+                  <% end %>
+                <% end %>
+              <% end %>
+            </dd>
+          <% else %>
+            <dd class="answer">
+              <textarea id="free_<%= index %>" class="textbox" name="answer[free_<%= index %>]" <%= read_only %>><%= @questionnaire_answer.free_answer(index) %></textarea>
+            </dd>
+          <% end %>
+          <% if @category %>
+            <input type="hidden" name="category_id" value="<%= @category.id %>">
+          <% end %>
+        </dl>
+      </li>
+      <% end %>
+    </ol>
+    <% if @confirming.blank? || @confirming === 'ng' %>
+      <div class="end">
+        <div class="box">
+          <div class="actions">
+            <% if @questionnaire_answer.post_completion %>
+            <div class="submit-disable">
+              <p>送信済み</p>
+            </div>
+            <% else %>
+            <%= submit_tag '確認', class: "submit" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="end">
+        <div class="box">
+          <div class="btn-fix"><%= link_to "修正する", @amend_link %></div>
+          <div class="actions">
+            <% if @questionnaire_answer.post_completion %>
+            <div class="submit-disable">
+              <p>送信済み</p>
+            </div>
+            <% else %>
+            <%= submit_tag '送信', class: "submit" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <%= hidden_field_tag :confirming, @confirming %>
+      </div>
+    <% end %>
+
+    <% end %>
+  </section>
+  <% if @confirming === 'ng' %>
+  <div class="area-result">
+    <a style="pointer-events: none;" name="post-anchor"><h3><%= @result_text_1 %></h3></a>
+    <%= simple_format(@result_text_2,  class: @is_correct ? "tx-correct" : "") %>
+    <% if @relult_link.present? %>
+    <div class="btn"><%= link_to @result_link_text, @result_link %></div>
+    <% end %>
+  </div>
+  <% end %>
+</main>
+
+<% if @save_api.present? && !@questionnaire_answer.post_completion %>
+<script type="text/javascript">
+  $(function() {
+    setInterval(function() {
+
+      var param = {};
+
+      <% @questionnaires.each_with_index do |questionnaire, index| %>
+        <% if questionnaire.is_radio? %>
+          var key = "<%= "radio_#{index}" %>";
+          var value = $("[name='answer[<%= "radio_#{index}" %>]']:checked").val();
+          if (value != null) {
+            param[key] = value;
+          }
+        <% elsif questionnaire.is_checkbox? %>
+          var key = "<%= "checkbox_#{index}" %>";
+          param[key] = [];
+          $("[name='answer[<%= "checkbox_#{index}" %>][]']:checked").each(function() {
+            var value = this.value;
+            if (value != null) {
+              param[key].push(value);
+            }
+          });
+          <% for choice_index in 1..4 %>
+          <% if questionnaire.get_question(choice_index).include?("その他") %>
+          key = key + "_free";
+          value = $("#<%= "checkbox_#{index}_free" %>").val();
+          if (value != null) {
+            param[key] = value;
+          }
+          <% end %>
+          <% end %>
+        <% else %>
+          var key = "<%= "free_#{index}" %>";
+          var value = $("#<%= "free_#{index}" %>").val();
+          if (value != null) {
+            param[key] = value;
+          }
+        <% end %>
+      <% end %>
+      $.post("/api<%= @save_api %>", {
+        'user_id': <%= current_user.id %>,
+        <% if @category %>
+        'category_id': <%= @category.id %>,
+        <% end %>
+        'answer': param
+      }, function(data){
+      });
+    }, 10000)
+  });
+
+</script>
+<% end %>

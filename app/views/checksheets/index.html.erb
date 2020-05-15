@@ -1,0 +1,139 @@
+<% @page_title = "チェックシートページ#{@category.title}" %>
+
+<main class="wrap-checksheet">
+  <%= render 'shared/breadcrumbs', breadcrumbs: @breadcrumbs %>
+  <h1 class="headChecksheet"><span>チェックシート</span></h1>
+  <section>
+    <div class="heading-border">
+      <p class="bold"><%= @category.title %></p>
+      <p><%= @category.format_short_description('') %></p>
+    </div>
+    <h2><span><%= @chapter_type + @chapter_number %></span><p><%= @video.title %></p></h2>
+
+    <%= form_tag checksheets_path(anchor: 'post-anchor'), method: :post do %>
+    <ol class="area-question">
+      <% @checksheets.each_with_index do |checksheet, index| %>
+      <% input_name = "answer[#{checksheet.answer_type}#{index}]" %>
+      <% input_id = "select#{index}" %>
+      <li>
+        <dl>
+          <dt class="question">
+            <p class="number">Q<%= index + 1 %></p>
+            <p class="first-half" style="width: 832px"><%= checksheet.question %></p>
+          </dt>
+          <% if checksheet.is_radio? %>
+            <dd class="answer">
+              <% for choice_index in 1..4 %>
+                <% if checksheet.get_choice(choice_index).present? %>
+                <% if @checksheet_answer.nil?
+                  checked = ""
+                else
+                  checked = @checksheet_answer.is_checked?(checksheet.answer_type, index, choice_index) ? "checked" : ""
+                end
+                   %>
+                  <input type="radio" name="<%= input_name %>" id="<%= "#{input_id}_#{choice_index}" %>" value="<%= choice_index %>" <%= checked %>>
+                  <label for="<%= "#{input_id}_#{choice_index}" %>"><%= checksheet.get_choice(choice_index) %></label>
+                <% end %>
+              <% end %>
+            </dd>
+          <% elsif checksheet.is_checkbox? %>
+            <dd class="answerbox">
+              <% for choice_index in 1..4 %>
+                <% if checksheet.get_choice(choice_index).present? %>
+                <% if @checksheet_answer.nil?
+                  checked = ""
+                else
+                  checked = @checksheet_answer.is_checked?(checksheet.answer_type, index, choice_index) ? "checked" : ""
+                end
+                   %>
+                  <input type="checkbox" name="<%= input_name %>[]" id="<%= "#{input_id}_#{choice_index}" %>" value="<%= choice_index %>" <%= checked %>>
+                  <label for="<%= "#{input_id}_#{choice_index}" %>"><%= checksheet.get_choice(choice_index) %></label>
+                <% end %>
+              <% end %>
+            </dd>
+          <% else %>
+            <dd class="answer">
+              <% if @checksheet_answer.nil?
+                saved_text = ""
+              else
+                saved_text = @checksheet_answer.get_free_answer(index)
+              end
+              %>
+
+              <textarea class="textbox" name="<%= input_name %>" id="<%= "freedom#{index}" %>"><%= saved_text %></textarea>
+            </dd>
+          <% end %>
+        </dl>
+      </li>
+      <% end %>
+    <div class="end">
+      <div class="box">
+        <div class="actions">
+          <% if @checksheet_answer.present? && @checksheet_answer.correct_answer %>
+          <div class="submit-disable">
+            <p>送信済み</p>
+          </div>
+          <% else %>
+          <%= submit_tag '送信', class: "submit" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <%= hidden_field_tag :chapter_number, @chapter_number %>
+      <%= hidden_field_tag :video_id, @video.id %>
+    </div>
+  </ol>
+  <% end %>
+  </section>
+  <% if @result_text_1 %>
+  <div class="area-result">
+    <a style="pointer-events: none;" name="post-anchor"><h3><%= @result_text_1 %></h3></a>
+    <%= simple_format(@result_text_2,  class: @is_correct ? "tx-correct" : "") %>
+    <div class="btn"><%= link_to @result_link_text, @result_link %></div>
+  </div>
+  <% end %>
+</main>
+
+<% if @result_text_1.nil? %>
+<script type="text/javascript">
+  $(function() {
+    setInterval(function() {
+
+      var param = {};
+
+      <% @checksheets.each_with_index do |checksheet, index| %>
+        <% if checksheet.is_radio? %>
+          var key = "<%= "radio#{index}" %>";
+          var value = $("[name='answer[<%= "radio#{index}" %>]']:checked").val();
+          if (value != null) {
+            param[key] = value;
+          }
+        <% elsif checksheet.is_checkbox? %>
+          var key = "<%= "checkbox#{index}" %>";
+          param[key] = [];
+          $("[name='answer[<%= "checkbox#{index}" %>][]']:checked").each(function() {
+            var value = this.value;
+            if (value != null) {
+              param[key].push(value);
+            }
+          });
+        <% else %>
+          var key = "<%= "freedom#{index}" %>";
+          var value = $("#<%= "freedom#{index}" %>").val();
+          if (value != null) {
+            param[key] = value;
+          }
+        <% end %>
+      <% end %>
+      $.post("/checksheet_answers/draft", {
+        'user_id': <%= current_user.id %>,
+        'video_id': <%= @video.id %>,
+        'answer': param
+      }, function(data){
+      });
+    }, 10000)
+  });
+
+</script>
+<% end %>
